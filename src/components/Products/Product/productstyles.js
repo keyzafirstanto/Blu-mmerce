@@ -10,7 +10,7 @@ export default makeStyles(() => ({
     width: 'auto',
     maxHeight: '100%',
     maxWidth: '100%',
-    paddingTop: '60.25%', // 16:9
+    paddingTop: '100%', // 16:9
   },
   cardActions: {
     display: 'flex',
