@@ -1,10 +1,12 @@
 import React from 'react';
 import { Icon } from '@iconify/react';
 import './Footer.css';
-import { Button } from '../../assets/Styles/Button';
+import useStyles from '../../assets/Styles/Button';
+import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 
 function Footer() {
+  const classes = useStyles();
   return (
     <div className="footer-container">
       <section className="footer-subscription">

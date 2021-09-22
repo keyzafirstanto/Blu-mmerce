@@ -68,7 +68,7 @@ const Register = () => {
   }
 
   return (
-    <div style={{ backgroundColor: 'whitesmoke' }}>
+    <div style={{ backgroundColor: '#334756' }}>
       <Grid container style={{ minHeight: '100vh' }}>
         <Grid item xs={12} sm={5} style={{ backgroundColor: '#082032' }}>
           <img
@@ -110,7 +110,7 @@ const Register = () => {
               label="Full Name"
               margin="normal"
               InputProps={{
-                startAdornment: (
+                endAdornment: (
                   <InputAdornment>
                     <AccountCircle />
                   </InputAdornment>
@@ -123,7 +123,7 @@ const Register = () => {
               label="Username"
               margin="normal"
               InputProps={{
-                startAdornment: (
+                endAdornment: (
                   <InputAdornment>
                     <AccountCircle />
                   </InputAdornment>
@@ -136,7 +136,7 @@ const Register = () => {
               label="Email"
               margin="normal"
               InputProps={{
-                startAdornment: (
+                endAdornment: (
                   <InputAdornment>
                     <AccountCircle />
                   </InputAdornment>
@@ -145,11 +145,18 @@ const Register = () => {
             />
             <TextField
               required
+              label="Birthday"
+              onChange={inputHandler}
+              margin="normal"
+              type="date"
+            />
+            <TextField
+              required
               onChange={inputHandler}
               label="Password"
               margin="normal"
               InputProps={{
-                startAdornment: (
+                endAdornment: (
                   <InputAdornment>
                     <LockRounded />
                   </InputAdornment>
