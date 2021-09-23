@@ -7,9 +7,7 @@ const CardProps = ({ item }) => {
     <div className="card">
       <Link to={`/${item.link}`}>
         <img src={item.image} alt={`${item.section}.jpg`} />
-        <div className="text-card">
-          <p>{item.section}</p>
-        </div>
+        <div className="card_description">{item.section}</div>
       </Link>
     </div>
   );
