@@ -82,23 +82,24 @@ const Button = styled.button`
 const sliderItems = [
   {
     id: 1,
-    image: 'https://i.ibb.co/XsdmR2c/1.png',
-    title: 'SUMMER SALE',
-    desc: "DON'T COMPROMISE ON STYLE! GET FLAT 30% FOR NEW ACCOUNT",
+    image: 'https://media.baamboozle.com/uploads/images/97979/1601917170_63087',
+    title: 'YOUR WELL-BEING IS OUR PRIORITY',
+    desc: 'JOIN OUR GLOBAL COMMUNITY',
     bg: 'f5fafd',
   },
   {
     id: 2,
-    image: 'https://i.ibb.co/DG69bQ4/2.png',
-    title: 'AUTUMN COLLECTION',
-    desc: "DON'T COMPROMISE ON STYLE! GET FLAT 30% FOR NEW ARRIVALS",
+    image: 'https://aawafi.com/uploads/partners/profile/doctor.jpg',
+    title: 'DR. MARIA OZAWA Phd. CONFERENCE',
+    desc: 'JOIN OUR WEEKLY HEALTH E-MEETING WITH MOST KNOWN DOCTOR',
     bg: 'fcf1ed',
   },
   {
     id: 3,
-    image: 'https://i.ibb.co/cXFnLLV/3.png',
-    title: 'LOUNGEWEAR LOVE',
-    desc: "DON'T COMPROMISE ON STYLE! GET FLAT 40% FOR NEW ACCOUNT",
+    image:
+      'https://i.pinimg.com/originals/28/bc/16/28bc16e405bcc09917642ff3ddb193f0.jpg',
+    title: 'HEAR WHAT THEY SAID',
+    desc: 'TESTIMONIAL PAGE',
     bg: 'fbf0f4',
   },
 ];
