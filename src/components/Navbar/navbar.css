@@ -1,24 +1,47 @@
 .navbar {
-  background-color: #334756;
+  background-color: #8ccfcd;
   height: 80px;
   position: fixed;
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  padding: 0 10px 0 10px;
+  box-shadow: 1px 1px 5px grey;
+}
+
+.navbar-items {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  text-align: center;
+}
+
+.navbar-list {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-left: 1rem;
 }
 
 .navbar-h1 {
-  color: aqua;
-  font-size: 43px;
-  align-self: center;
+  color: white;
+  font-size: 20px;
+  text-align: center;
   letter-spacing: 1px;
+  margin: 14px 15px;
+}
+
+.navbar-h1:hover {
+  color: wheat;
+  font-size: 21px;
+  text-align: center;
+  letter-spacing: 1px;
+  margin: 14px 15px;
 }
 
 .menu-bars {
   margin-left: 10px;
   font-size: 2rem;
+  align-self: center;
   background: none;
+  padding-bottom: 8px;
 }
 
 .nav-menu {
@@ -43,7 +66,7 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 8px 0px 8px 16px;
+  padding: 8px 0px;
   list-style: none;
   height: 60px;
 }

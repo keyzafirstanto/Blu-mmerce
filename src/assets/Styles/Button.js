@@ -11,7 +11,7 @@ export default makeStyles((theme) => ({
   buttonLogin: {
     'background': 'linear-gradient(45deg, #3C3B3F, #605C3C)',
     '&:hover': {
-      background: 'linear-gradient(45deg, #99f2c8, #605C3C, #3C3B3F)',
+      background: 'linear-gradient(45deg, #a2ab58, #636363, #605C3C )',
       color: 'white',
     },
     'marginBottom': 15,

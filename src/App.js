@@ -13,7 +13,7 @@ const App = () => {
       <Switch>
         <Route component={Login} path="/login" />
         <Route component={Register} path="/register" />
-        <Route component={Home} path="/home" />
+        <Route component={Home} path="/homepage" />
         <Route component={LandingPage} path="/" />
       </Switch>
     </Router>

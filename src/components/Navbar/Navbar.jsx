@@ -19,12 +19,28 @@ const Navbar = () => {
     <>
       <IconContext.Provider value={{ color: '#fff' }}>
         <div className="navbar">
-          <Link to="#" className="menu-bars">
-            <FaIcons.FaBars onClick={showSidebar} />
-          </Link>
-          <Link to="/" className="text-decoration-none">
-            <h1 className="navbar-h1">Blu</h1>
-          </Link>
+          <div>
+            <Link to="#" className="menu-bars">
+              <FaIcons.FaBars onClick={showSidebar} />
+            </Link>
+          </div>
+          <div className="navbar-list">
+            <Link to="/" className="text-decoration-none">
+              <h1 className="navbar-h1">Home</h1>
+            </Link>
+            <Link to="/" className="text-decoration-none">
+              <h1 className="navbar-h1">Articles</h1>
+            </Link>
+            <Link to="/" className="text-decoration-none">
+              <h1 className="navbar-h1">Shop</h1>
+            </Link>
+            <Link to="/" className="text-decoration-none">
+              <h1 className="navbar-h1">Home</h1>
+            </Link>
+            <Link to="/" className="text-decoration-none">
+              <h1 className="navbar-h1">Sale</h1>
+            </Link>
+          </div>
           <div className="navbar-items">
             <IconButton
               component={Link}

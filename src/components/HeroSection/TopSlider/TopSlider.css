@@ -1,0 +1,41 @@
+.top-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.main-text {
+  width: 50%;
+  margin-top: 3%;
+  margin-left: 20%;
+  padding: 5% 7% 1%;
+  color: #05523f;
+  text-align: left;
+}
+
+.main-text > h2 {
+  font-size: 43px;
+  padding-bottom: 10px;
+}
+
+.main-text > h5 {
+  font-size: 20px;
+  font-weight: bold;
+  padding-bottom: 5px;
+}
+
+.main-text > p {
+  width: 150%;
+  font-size: 15px;
+}
+
+.icon-container {
+  position: absolute;
+  width: 34.9%;
+}
+
+.image {
+  display: flex;
+  flex-direction: row;
+  margin-top: -22%;
+  margin-left: 150%;
+}
