@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa&family=Cormorant+Garamond:wght@300&family=Quattrocento+Sans&display=swap');
+
 .top-container {
   display: flex;
   flex-direction: row;
@@ -13,19 +15,24 @@
 }
 
 .main-text > h2 {
-  font-size: 43px;
+  font-size: 40px;
   padding-bottom: 10px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  font-family: 'Quattrocento Sans', sans-serif;
 }
 
 .main-text > h5 {
   font-size: 20px;
   font-weight: bold;
   padding-bottom: 5px;
+  font-family: 'Quattrocento Sans', sans-serif;
 }
 
 .main-text > p {
   width: 150%;
   font-size: 15px;
+  font-family: 'Quattrocento Sans', sans-serif;
 }
 
 .icon-container {
@@ -38,4 +45,5 @@
   flex-direction: row;
   margin-top: -22%;
   margin-left: 150%;
+  z-index: 2;
 }

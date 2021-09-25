@@ -20,13 +20,14 @@
 .img-1 {
   width: 100%;
   height: 100%;
-  border-radius: 10%;
   display: flex;
+  padding: 10%;
+  border-radius: 20%;
 }
 
 .hero-container {
   background: white;
-  height: 100vh;
+  height: 80vh;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -34,10 +35,11 @@
   align-items: center;
   /* box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.2); */
   object-fit: contain;
+  z-index: 3;
 }
 
 .top-container {
-  height: 40vh;
+  height: 20vh;
   position: flex;
   width: 100%;
   z-index: 4;
@@ -46,9 +48,9 @@
 
 .hero-container > h1 {
   color: white;
-  font-size: 47px;
+  font-size: 40px;
   text-align: center;
-  margin: -400px 20% 0 20%;
+  margin: -700px 20% 0 20%;
   font-weight: bold;
   z-index: 5;
 }

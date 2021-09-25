@@ -29,9 +29,9 @@ const HeroSection = () => {
           <img src="/images/nature.png" alt="blu.png" className="img-1" />
         </div>
       </div>
-      <div>
+      {/* <div>
         <Slider />
-      </div>
+      </div> */}
     </>
   );
 };

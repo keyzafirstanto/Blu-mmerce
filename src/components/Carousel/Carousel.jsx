@@ -34,19 +34,19 @@ const mockCarousel = [
   {
     id: 5,
     image: 'images/06.jpg',
-    section: 'Shoes',
+    section: 'Baby',
     link: 'login',
   },
   {
     id: 6,
     image: 'images/nature01.jpg',
-    section: 'Bag & Accessories',
+    section: 'Pregnancy',
     link: 'register',
   },
   {
     id: 7,
     image: 'images/Sunlight.png',
-    section: 'Home',
+    section: 'Medicine',
     link: 'login',
   },
 ];

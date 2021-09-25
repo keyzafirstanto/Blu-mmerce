@@ -67,11 +67,10 @@ const products = [
   },
   {
     id: 8,
-    name: 'Swisse',
-    description: 'hair Skin Nails (150 Tablets).',
+    name: 'Tramadol',
+    description: 'Obat anti banting.',
     price: 299,
-    image:
-      'https://cdn1.evitamins.com/images/products/Swisse/321208/1400/321208_front2020good.jpg',
+    image: 'https://upload.wikimedia.org/wikipedia/id/1/1a/Tramadol2.jpg',
   },
 ];
 
