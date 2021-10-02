@@ -1,11 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Grid from '@material-ui/core/Grid';
+import 'boxicons';
+import { API_URL } from '../../helper';
+import Axios from 'axios';
 
 // file directory
 import Product from './Product/Product';
+import { SidebarData } from '../Sidebar/SidebarData';
+import SubMenu from '../Sidebar/SubMenu';
 
 //styling
 import useStyles from './productsstyles';
+import '../Sidebar/sidebarstyles.css';
+import styled from 'styled-components';
+import { IconContext } from 'react-icons/lib';
 
 // mock products
 const products = [
@@ -74,13 +82,97 @@ const products = [
   },
 ];
 
+const Nav = styled.div`
+  background: transparent;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+`;
+
+const SidebarNav = styled.nav`
+  background: #8ccfcd;
+  width: 250px;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: 202px;
+  padding-top: 2%;
+  padding-bottom: 20%;
+  left: 0;
+  transition: 350ms;
+  z-index: 4;
+`;
+
+const SidebarWrap = styled.div`
+  width: 100%;
+`;
+
 const Products = ({ onAddToCart }) => {
+  const [productsFetch, setProductsFetch] = useState({
+    productList: [],
+    filteredProducts: [],
+    itemPerPage: 10,
+    searchCategory: [
+      'Obat Generik',
+      'Antibiotic',
+      'Multivitamin',
+      'Obat Kecantikan',
+      'Antiseptic',
+      'Obat Lambung',
+    ],
+  });
+
+  const [searchInput, setSearchInput] = useState({
+    name: '',
+  });
+
+  const fetchProducts = () => {
+    Axios.get(`${API_URL}/products`).then((res) => {
+      setProductsFetch({ productList: res });
+    });
+  };
+
+  const inputHandler = (e) => {
+    const value = e.target.value;
+    setSearchInput({ search: value });
+  };
+
   const classes = useStyles();
-  // if (!products.length) return <p>Loading...</p>;
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
   return (
     <main className={classes.content}>
+      <IconContext.Provider value={{ color: '#fff' }}>
+        <Nav>
+          <SidebarNav>
+            <SidebarWrap>
+              <div className="input_search">
+                <input
+                  onChange={inputHandler}
+                  type="text"
+                  placeholder="...Search"
+                />
+                <button>
+                  <box-icon name="search"></box-icon>
+                </button>
+              </div>
+              {SidebarData.map((item, index) => {
+                return <SubMenu item={item} key={index} />;
+              })}
+            </SidebarWrap>
+          </SidebarNav>
+          <div>
+            <button>prev</button>
+            <button>next</button>
+          </div>
+        </Nav>
+      </IconContext.Provider>
       <div className={classes.toolbar}>
-        <h1>Most Sought Items</h1>
+        <h1>Antibiotics</h1>
       </div>
       <Grid container justifyContent="center" spacing={2}>
         {products.map((product) => (
@@ -89,7 +181,6 @@ const Products = ({ onAddToCart }) => {
           </Grid>
         ))}
       </Grid>
-      <div></div>
     </main>
   );
 };

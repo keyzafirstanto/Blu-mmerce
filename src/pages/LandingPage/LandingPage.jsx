@@ -1,7 +1,13 @@
 import React from 'react';
 
 // file directory
-import { HeroSection, Footer, Products, Carousel } from '../../components';
+import {
+  HeroSection,
+  Footer,
+  Products,
+  Carousel,
+  Sidebar,
+} from '../../components';
 
 // styling
 import './landingpage.css';
@@ -9,13 +15,17 @@ import './landingpage.css';
 const LandingPage = () => {
   return (
     <div>
-      <HeroSection />
+      {/* <div style={{ position: 'relative', width: '100%', background: '#fff' }}>
+        <Sidebar />
+      </div> */}
+      {/* <HeroSection /> */}
+
       <div>
         <Products />
       </div>
-      <div>
+      {/* <div>
         <Carousel />
-      </div>
+      </div> */}
       <Footer />
     </div>
   );
