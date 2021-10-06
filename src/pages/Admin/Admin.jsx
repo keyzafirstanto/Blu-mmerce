@@ -30,13 +30,12 @@ const Admin = () => {
     editId: 0,
     editProductName: '',
     editProductDesc: '',
-    editProductImage: '',
-    editProductStock: 0,
-    editProductNetto: 0,
-    editProductNettoTotal: 0,
-    editProductUnit: 0,
-    editProductPricePerUnit: 0,
-    editProductPricePerStock: 0,
+    editProductStock: null,
+    editProductNetto: null,
+    editProductNettoTotal: null,
+    editProductUnit: null,
+    editProductPricePerUnit: null,
+    editProductPricePerStock: null,
     editProductBrand: '',
     editProductCategory: '',
   });
@@ -66,7 +65,6 @@ const Admin = () => {
       editId: editData.product_id,
       editProductName: editData.product_name,
       editProductDesc: editData.product_desc,
-      editProductImage: editData.product_img,
       editProductStock: editData.stock,
       editProductNetto: editData.netto,
       editProductNettoTotal: editData.netto_total,
@@ -83,26 +81,59 @@ const Admin = () => {
   };
 
   const saveBtnHandler = () => {
-    Axios.patch(`${API_URL}/products/update/${editProduct.editId}`, {
-      product_name: editProduct.editProductName,
-      product_desc: editProduct.editProductDesc,
-      product_img: editProduct.editProductImage,
-      stock: editProduct.editProductStock,
-      netto: editProduct.editProductNetto,
-      netto_total: editProduct.editProductNettoTotal,
-      unit: editProduct.editProductUnit,
-      price_per_unit: editProduct.editProductPricePerUnit,
-      price_per_stock: editProduct.editProductPricePerStock,
-      brand_id: parseInt(editProduct.editProductBrand),
-      category_id: parseInt(editProduct.editProductCategory),
-    })
-      .then(() => {
-        fetchProducts();
-        cancelEdit();
+    if (addImage.addFile) {
+      let formData = new FormData();
+
+      formData.append('file', addImage.addFile);
+
+      formData.append(
+        'data',
+        JSON.stringify({
+          product_name: editProduct.editProductName,
+          product_desc: editProduct.editProductDesc,
+          stock: editProduct.editProductStock,
+          netto: editProduct.editProductNetto,
+          netto_total: editProduct.editProductNettoTotal,
+          unit: editProduct.editProductUnit,
+          price_per_unit: editProduct.editProductPricePerUnit,
+          price_per_stock: editProduct.editProductPricePerStock,
+          brand_id: editProduct.editProductBrand,
+          category_id: editProduct.editProductCategory,
+        })
+      );
+
+      Axios.patch(`${API_URL}/products/update/${editProduct.editId}`, formData)
+        .then((res) => {
+          alert(res.data.message);
+          fetchProducts();
+          cancelEdit();
+        })
+        .catch(() => {
+          alert(`Terjadi Kesalahan`);
+        });
+    } else if (!addImage.addFile) {
+      Axios.patch(`${API_URL}/products/update/${editProduct.editId}`, {
+        product_name: editProduct.editProductName,
+        product_desc: editProduct.editProductDesc,
+        product_img: productFetch.productDataList.product_img,
+        stock: editProduct.editProductStock,
+        netto: editProduct.editProductNetto,
+        netto_total: editProduct.editProductNettoTotal,
+        unit: editProduct.editProductUnit,
+        price_per_unit: editProduct.editProductPricePerUnit,
+        price_per_stock: editProduct.editProductPricePerStock,
+        brand_id: editProduct.editProductBrand,
+        category_id: editProduct.editProductCategory,
       })
-      .catch(() => {
-        alert(`Terjadi Kesalahan`);
-      });
+        .then((res) => {
+          alert(res.data.message);
+          fetchProducts();
+          cancelEdit();
+        })
+        .catch(() => {
+          alert(`Terjadi Kesalahan`);
+        });
+    }
   };
 
   const deleteBtnHandler = (deleteId) => {
@@ -129,8 +160,6 @@ const Admin = () => {
         addFileName: e.target.files[0].name,
         addFile: e.target.files[0],
       });
-      // !need attention
-      console.log(addImage.addFile, addImage.addFileName);
 
       let preview = document.getElementById('imgpreview');
       preview.src = URL.createObjectURL(e.target.files[0]);
@@ -172,11 +201,12 @@ const Admin = () => {
               />
             </td>
             <td>
+              <img id="imgpreview" alt="" width="100%" />
               <input
                 onChange={btnAddImage}
                 type="file"
                 className="form-control"
-                name="editProductImage"
+                id="img"
               />
             </td>
             <td>
@@ -216,6 +246,7 @@ const Admin = () => {
               >
                 <option value="ml">ml</option>
                 <option value="mg">mg</option>
+                <option value="tablet">tablet</option>
               </select>
             </td>
             <td>
@@ -233,14 +264,14 @@ const Admin = () => {
                 onChange={inputHandler}
                 type="number"
                 className="form-control"
-                name="editProductCategory"
+                name="editProductPricePerStock"
               />
             </td>
             <td>
               <select
                 value={editProduct.editProductBrand}
                 onChange={inputHandler}
-                type="text"
+                type="number"
                 className="form-control"
                 name="editProductBrand"
               >
@@ -346,8 +377,8 @@ const Admin = () => {
           netto: parseInt(newProduct.addProductNetto),
           netto_total: parseInt(newProduct.addProductNettoTotal),
           unit: newProduct.addProductUnit,
-          price_per_unit: newProduct.addProductPricePerUnit,
-          price_per_stock: newProduct.addProductPricePerStock,
+          price_per_unit: parseInt(newProduct.addProductPricePerUnit),
+          price_per_stock: parseInt(newProduct.addProductPricePerStock),
           brand_id: newProduct.addProductBrand,
           category_id: newProduct.addProductCategory,
         })

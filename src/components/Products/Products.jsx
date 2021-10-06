@@ -57,6 +57,7 @@ const Products = () => {
     searchProductName: '',
     searchProductCategory: '',
   });
+  console.log(searchProduct.searchProductCategory);
 
   const fetchProducts = () => {
     Axios.get(`${API_URL}/products/get`)
@@ -72,8 +73,6 @@ const Products = () => {
         console.log(err);
       });
   };
-
-  // console.log(searchProducts.rawData);
 
   const renderProducts = () => {
     const productPagination =
@@ -148,9 +147,12 @@ const Products = () => {
 
   const searchBtnHandler = () => {
     const filteredProducts = productsFetch.productList.filter((val) => {
-      return val.product_name
-        .toLowerCase()
-        .includes(searchProduct.searchProductName.toLowerCase());
+      return (
+        val.product_name
+          .toLowerCase()
+          .includes(searchProduct.searchProductName.toLowerCase()) &&
+        val.category_id.includes(searchProduct.searchProductCategory)
+      );
     });
     setProductsFilter({
       ...productsFilter,
@@ -183,18 +185,18 @@ const Products = () => {
                   placeholder="Search..."
                   className="form-control mb-3"
                 />
-                <label htmlFor="searchCategory">Product Category</label>
+                <label htmlFor="searchProductCategory">Product Category</label>
                 <select
                   onChange={inputHandler}
-                  name="searchCategory"
+                  name="searchProductCategory"
                   className="form-control"
                 >
                   <option value="">All Items</option>
-                  <option value="Obat Generic">Obat Generic</option>
-                  <option value="Antibiotic">Antibiotic</option>
-                  <option value="Suplement Makanan">Suplement Makanan</option>
-                  <option value="Obat Lambung">Obat Lambung</option>
-                  <option value="Antiseptic">Antiseptic</option>
+                  <option value="1">Obat Generic</option>
+                  <option value="2">Antibiotic</option>
+                  <option value="3">Suplement Makanan</option>
+                  <option value="4">Obat Lambung</option>
+                  <option value="5">Antiseptic</option>
                 </select>
                 <button
                   onClick={searchBtnHandler}

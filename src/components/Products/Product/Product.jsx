@@ -9,6 +9,8 @@ import {
 } from '@material-ui/core';
 import { AddShoppingCart } from '@material-ui/icons';
 
+import { API_URL } from '../../../helper';
+
 import useStyles from './productstyles';
 
 const Product = ({ product, onAddToCart }) => {
@@ -20,7 +22,7 @@ const Product = ({ product, onAddToCart }) => {
     <Card className={classes.root}>
       <CardMedia
         className={classes.media}
-        image={product.product_img}
+        image={API_URL + product.product_img}
         title={product.product_name}
       />
       <CardContent>
