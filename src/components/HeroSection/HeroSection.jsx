@@ -3,13 +3,10 @@ import '../../App.css';
 import './herosection.css';
 import Slider from './Slider/Slider';
 import TopSlider from './TopSlider/TopSlider';
-import Button from '@material-ui/core/Button';
 
 // file directory
-import useStyles from '../../assets/Styles/Button';
 
 const HeroSection = () => {
-  const classes = useStyles();
   return (
     <>
       <div className="top-container">
@@ -21,9 +18,9 @@ const HeroSection = () => {
           delivering better outcomes and lower costs for everyone.
         </h1>
         <p>WELCOME TO HERBIO</p>
-        <div className={classes.root}>
-          <Button className={classes.buttonLogin}>LOGIN | REGISTER</Button>
-          <Button className={classes.buttonItems}>BOOK A CONSULTATION</Button>
+        <div>
+          <button>LOGIN | REGISTER</button>
+          <button>BOOK A CONSULTATION</button>
         </div>
         <div className="img-container">
           <img src="/images/nature.png" alt="blu.png" className="img-1" />

@@ -6,8 +6,8 @@ export default makeStyles(() => ({
     maxWidth: '80%',
   },
   media: {
-    height: 'auto',
-    width: 'auto',
+    height: '100%',
+    width: '100%',
     maxHeight: '100%',
     maxWidth: '100%',
     paddingTop: '100%', // 16:9

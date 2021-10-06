@@ -2,11 +2,11 @@ import React from 'react';
 
 // file directory
 import {
-  HeroSection,
+  // HeroSection,
   Footer,
   Products,
-  Carousel,
-  Sidebar,
+  // Carousel,
+  // Sidebar,
 } from '../../components';
 
 // styling
@@ -26,7 +26,7 @@ const LandingPage = () => {
       {/* <div>
         <Carousel />
       </div> */}
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

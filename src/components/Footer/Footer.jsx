@@ -1,12 +1,12 @@
 import React from 'react';
 import { Icon } from '@iconify/react';
 import './Footer.css';
-import useStyles from '../../assets/Styles/Button';
-import Button from '@material-ui/core/Button';
+// import useStyles from '../../assets/Styles/Button';
+// import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 
 function Footer() {
-  const classes = useStyles();
+  // const classes = useStyles();
   return (
     <div className="footer-container">
       <section className="footer-subscription">
@@ -24,7 +24,7 @@ function Footer() {
               type="email"
               placeholder="Your Email"
             />
-            <Button buttonStyle="btn--outline">Subscribe</Button>
+            <button>Subscribe</button>
           </form>
         </div>
       </section>

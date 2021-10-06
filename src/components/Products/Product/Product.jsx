@@ -20,20 +20,23 @@ const Product = ({ product, onAddToCart }) => {
     <Card className={classes.root}>
       <CardMedia
         className={classes.media}
-        image={product.image}
-        title={product.name}
+        image={product.product_img}
+        title={product.product_name}
       />
       <CardContent>
         <div className={classes.cardContent}>
           <Typography gutterBottom variant="h5" component="h2">
-            {product.name}
+            {product.product_name}
           </Typography>
           <Typography gutterBottom variant="h5" component="h2">
-            ${product.price}
+            {product.price_per_stock}
           </Typography>
         </div>
+        <Typography variant="body2" color="textSecondary" component="p">
+          {product.product_categories}
+        </Typography>
         <Typography
-          dangerouslySetInnerHTML={{ __html: product.description }}
+          dangerouslySetInnerHTML={{ __html: product.product_desc }}
           variant="body2"
           color="textSecondary"
           component="p"

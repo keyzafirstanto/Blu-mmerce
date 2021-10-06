@@ -1,86 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import Grid from '@material-ui/core/Grid';
-import 'boxicons';
 import { API_URL } from '../../helper';
 import Axios from 'axios';
 
 // file directory
 import Product from './Product/Product';
-import { SidebarData } from '../Sidebar/SidebarData';
-import SubMenu from '../Sidebar/SubMenu';
 
 //styling
 import useStyles from './productsstyles';
 import '../Sidebar/sidebarstyles.css';
 import styled from 'styled-components';
 import { IconContext } from 'react-icons/lib';
-
-// mock products
-const products = [
-  {
-    id: 1,
-    name: 'Generic Prescriptions',
-    description: 'Custom generic prescription drugs',
-    price: 59,
-    image:
-      'https://media.phillyvoice.com/media/images/01_120518_PillsStock_Carroll.2e16d0ba.fill-735x490.jpg',
-  },
-  {
-    id: 2,
-    name: 'Azurette',
-    description: 'Birth Control Pills.',
-    price: 29,
-    image:
-      'https://post.healthline.com/wp-content/uploads/2020/09/birth-control-pills_thumb.jpg',
-  },
-  {
-    id: 3,
-    name: 'Rhinos SR',
-    description: 'Fever Medicine.',
-    price: 159,
-    image:
-      'https://static.sehatq.com/cdn-cgi/image/f=auto,onerror=redirect/tokoq/products/variants/5ettgcze0pcvykcgorxjkkl98sut/d97e3be92024a5385a06cc064c78b64ef6e8cb509c7c09b07c1b2407807306e8',
-  },
-  {
-    id: 4,
-    name: 'Blackmores',
-    description: 'Calcium + D3 120 teblets.',
-    price: 19,
-    image:
-      'https://s1.bukalapak.com/img/1166303111/large/BLACKMORES_Calcium___D3_120_tablets__Untuk_kesehatan_tulang_.png',
-  },
-  {
-    id: 5,
-    name: 'Blackmores',
-    description: 'Omega Daily.',
-    price: 39,
-    image:
-      'https://kalcare.s3-ap-southeast-1.amazonaws.com/moch4/uploads/catalog/product/o/m/omega-daily-blackmores.jpg',
-  },
-  {
-    id: 6,
-    name: 'Swisse',
-    description: 'Ultiboost Zinc (60 Tablets).',
-    price: 19,
-    image:
-      'https://www.static-src.com/wcsstore/Indraprastha/images/catalog/full//99/MTA-8975330/swisse_swisse_ultiboost_zinc-_60_tablet_full01_hfmmttgs.jpg',
-  },
-  {
-    id: 7,
-    name: 'Swisse',
-    description: "Men's Multivitamin (120 tablets).",
-    price: 29,
-    image:
-      'https://ae01.alicdn.com/kf/He822ceef448a4b6a84a3ba98e4401785J/Australia-Swisse-Men-S-Ultivite-Multivitamin-120-Tablet-Menjaga-Tingkat-Energi-Kewaspadaan-Mental-Stamina-Vitalitas-Tonik.jpg_Q90.jpg_.webp',
-  },
-  {
-    id: 8,
-    name: 'Tramadol',
-    description: 'Obat anti banting.',
-    price: 299,
-    image: 'https://upload.wikimedia.org/wikipedia/id/1/1a/Tramadol2.jpg',
-  },
-];
+import Grid from '@material-ui/core/Grid';
+import 'boxicons';
 
 const Nav = styled.div`
   background: transparent;
@@ -94,6 +25,7 @@ const SidebarNav = styled.nav`
   width: 250px;
   height: auto;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   position: absolute;
   top: 202px;
@@ -108,34 +40,126 @@ const SidebarWrap = styled.div`
   width: 100%;
 `;
 
-const Products = ({ onAddToCart }) => {
+const Products = () => {
   const [productsFetch, setProductsFetch] = useState({
     productList: [],
-    filteredProducts: [],
-    itemPerPage: 10,
-    searchCategory: [
-      'Obat Generik',
-      'Antibiotic',
-      'Multivitamin',
-      'Obat Kecantikan',
-      'Antiseptic',
-      'Obat Lambung',
-    ],
+    page: 1,
+    maxPage: 0,
+    itemPerPage: 5,
   });
 
-  const [searchInput, setSearchInput] = useState({
-    name: '',
+  const [productsFilter, setProductsFilter] = useState({
+    filteredProducts: [],
+    sortBy: '',
+  });
+
+  const [searchProduct, setSearchProduct] = useState({
+    searchProductName: '',
+    searchProductCategory: '',
   });
 
   const fetchProducts = () => {
-    Axios.get(`${API_URL}/products`).then((res) => {
-      setProductsFetch({ productList: res });
+    Axios.get(`${API_URL}/products/get`)
+      .then((res) => {
+        setProductsFetch({
+          ...productsFetch,
+          productList: res.data,
+          maxPage: Math.ceil(res.data.length / productsFetch.itemPerPage),
+        });
+        setProductsFilter({ ...productsFilter, filteredProducts: res.data });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  // console.log(searchProducts.rawData);
+
+  const renderProducts = () => {
+    const productPagination =
+      (productsFetch.page - 1) * productsFetch.itemPerPage;
+
+    // unfiltered data = all the available data
+    let rawData = [...productsFilter.filteredProducts];
+
+    const compareItem = (a, b) => {
+      if (a.product_name < b.product_name) {
+        return -1;
+      }
+      if (a.product_name > b.product_name) {
+        return 1;
+      }
+      return 0;
+    };
+
+    switch (productsFilter.sortBy) {
+      case 'lowestPrice':
+        rawData.sort((a, b) => a.price_per_stock - b.price_per_stock);
+        break;
+      case 'highestPrice':
+        rawData.sort((a, b) => b.price_per_stock - a.price_per_stock);
+        break;
+      case 'az':
+        rawData.sort(compareItem);
+        break;
+      case 'za':
+        rawData.sort((a, b) => compareItem(b, a));
+        break;
+      default:
+        rawData = [...productsFilter.filteredProducts];
+        break;
+    }
+
+    const currentData = rawData.slice(
+      productPagination,
+      productPagination + productsFetch.itemPerPage
+    );
+
+    return currentData.map((product) => {
+      return (
+        <Grid key={product.id} item xs={6} sm={6} md={4} lg={3}>
+          <Product product={product} />
+        </Grid>
+      );
     });
+  };
+
+  const nextPageHandler = () => {
+    if (productsFetch.page < productsFetch.maxPage) {
+      setProductsFetch({ ...productsFetch, page: productsFetch.page + 1 });
+    }
+  };
+
+  const prevPageHandler = () => {
+    if (productsFetch.page > 1) {
+      setProductsFetch({ ...productsFetch, page: productsFetch.page - 1 });
+    }
   };
 
   const inputHandler = (e) => {
     const value = e.target.value;
-    setSearchInput({ search: value });
+    const name = e.target.name;
+    setProductsFilter({ ...productsFilter, [name]: value });
+    setProductsFetch({ ...productsFetch, [name]: value });
+    setSearchProduct({ ...searchProduct, [name]: value });
+
+    console.log(searchProduct.searchProductName);
+  };
+
+  const searchBtnHandler = () => {
+    const filteredProducts = productsFetch.productList.filter((val) => {
+      return val.product_name
+        .toLowerCase()
+        .includes(searchProduct.searchProductName.toLowerCase());
+    });
+    setProductsFilter({
+      ...productsFilter,
+      filteredProducts,
+      maxPage: Math.ceil(
+        productsFilter.filteredProducts.length / productsFetch.itemPerPage
+      ),
+    });
+    console.log(productsFilter.filteredProducts);
   };
 
   const classes = useStyles();
@@ -151,38 +175,87 @@ const Products = ({ onAddToCart }) => {
           <SidebarNav>
             <SidebarWrap>
               <div className="input_search">
+                <label htmlFor="searchProductName">Product Name</label>
                 <input
                   onChange={inputHandler}
+                  name="searchProductName"
                   type="text"
-                  placeholder="...Search"
+                  placeholder="Search..."
+                  className="form-control mb-3"
                 />
-                <button>
-                  <box-icon name="search"></box-icon>
+                <label htmlFor="searchCategory">Product Category</label>
+                <select
+                  onChange={inputHandler}
+                  name="searchCategory"
+                  className="form-control"
+                >
+                  <option value="">All Items</option>
+                  <option value="Obat Generic">Obat Generic</option>
+                  <option value="Antibiotic">Antibiotic</option>
+                  <option value="Suplement Makanan">Suplement Makanan</option>
+                  <option value="Obat Lambung">Obat Lambung</option>
+                  <option value="Antiseptic">Antiseptic</option>
+                </select>
+                <button
+                  onClick={searchBtnHandler}
+                  className="btn btn-primary mt-3 button-search"
+                >
+                  Search
                 </button>
               </div>
-              {SidebarData.map((item, index) => {
-                return <SubMenu item={item} key={index} />;
-              })}
+              <div>
+                <label htmlFor="sortBy">Sort Product</label>
+                <div className="card-body">
+                  <label htmlFor="sortBy">Sort by</label>
+                  <select
+                    onChange={inputHandler}
+                    name="sortBy"
+                    className="form-control"
+                  >
+                    <option value="">Default</option>
+                    <option value="lowestPrice">Lowest Price</option>
+                    <option value="highestPrice">Highest Price</option>
+                    <option value="az">A-Z</option>
+                    <option value="za">Z-A</option>
+                  </select>
+                </div>
+              </div>
+              <div className="mt-3">
+                <div className="d-flex flex-row justify-content-between align-items-center">
+                  <button
+                    disabled={productsFetch.page === 1}
+                    onClick={prevPageHandler}
+                    className="btn btn-dark"
+                  >
+                    {'<'}
+                  </button>
+                  <div className="text-center">
+                    Page {productsFetch.page} of {productsFetch.maxPage}
+                  </div>
+                  <button
+                    disabled={productsFetch.page === productsFetch.maxPage}
+                    onClick={nextPageHandler}
+                    className="btn btn-dark"
+                  >
+                    {'>'}
+                  </button>
+                </div>
+              </div>
             </SidebarWrap>
           </SidebarNav>
           <div>
-            <button>prev</button>
-            <button>next</button>
+            <Grid container justifyContent="center" spacing={4}>
+              {renderProducts()}
+            </Grid>
           </div>
         </Nav>
       </IconContext.Provider>
-      <div className={classes.toolbar}>
-        <h1>Antibiotics</h1>
-      </div>
-      <Grid container justifyContent="center" spacing={2}>
-        {products.map((product) => (
-          <Grid key={product.id} item xs={12} sm={6} md={4} lg={3}>
-            <Product product={product} onAddToCart={onAddToCart} />
-          </Grid>
-        ))}
-      </Grid>
     </main>
   );
 };
 
 export default Products;
+
+// && val.product_category
+//   .toLowerCase()
+//   .includes(productsFilter.searchProductCategory.toLowerCase())

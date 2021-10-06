@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Grid, TextField, Button, InputAdornment } from '@material-ui/core';
 import { AccountCircle, LockRounded } from '@material-ui/icons';
 import { Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Axios from 'axios';
 import { API_URL } from '../../helper';
 
