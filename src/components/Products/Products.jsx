@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { API_URL } from '../../helper';
 import Axios from 'axios';
+import { Link } from 'react-router-dom';
 
 // file directory
 import Product from './Product/Product';
@@ -22,15 +23,15 @@ const Nav = styled.div`
 
 const SidebarNav = styled.nav`
   background: #8ccfcd;
-  width: 250px;
+  width: 300px;
   height: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
   position: absolute;
-  top: 202px;
-  padding-top: 2%;
-  padding-bottom: 20%;
+  top: 100px;
+  height: 100vh;
+  padding: 0 0 20%;
   left: 0;
   transition: 350ms;
   z-index: 4;
@@ -45,7 +46,7 @@ const Products = () => {
     productList: [],
     page: 1,
     maxPage: 0,
-    itemPerPage: 5,
+    itemPerPage: 12,
   });
 
   const [productsFilter, setProductsFilter] = useState({
@@ -57,7 +58,6 @@ const Products = () => {
     searchProductName: '',
     searchProductCategory: '',
   });
-  console.log(searchProduct.searchProductCategory);
 
   const fetchProducts = () => {
     Axios.get(`${API_URL}/products/get`)
@@ -116,7 +116,7 @@ const Products = () => {
 
     return currentData.map((product) => {
       return (
-        <Grid key={product.id} item xs={6} sm={6} md={4} lg={3}>
+        <Grid key={product.id} item xs={3}>
           <Product product={product} />
         </Grid>
       );
@@ -141,18 +141,13 @@ const Products = () => {
     setProductsFilter({ ...productsFilter, [name]: value });
     setProductsFetch({ ...productsFetch, [name]: value });
     setSearchProduct({ ...searchProduct, [name]: value });
-
-    console.log(searchProduct.searchProductName);
   };
 
   const searchBtnHandler = () => {
     const filteredProducts = productsFetch.productList.filter((val) => {
-      return (
-        val.product_name
-          .toLowerCase()
-          .includes(searchProduct.searchProductName.toLowerCase()) &&
-        val.category_id.includes(searchProduct.searchProductCategory)
-      );
+      return val.product_name
+        .toLowerCase()
+        .includes(searchProduct.searchProductName.toLowerCase());
     });
     setProductsFilter({
       ...productsFilter,
@@ -206,9 +201,16 @@ const Products = () => {
                 </button>
               </div>
               <div>
+                <Link
+                  to="/customproduct"
+                  style={{ textDecoration: 'none', color: 'inherit' }}
+                >
+                  <strong>Custom Product</strong>
+                </Link>
+              </div>
+              <div>
                 <label htmlFor="sortBy">Sort Product</label>
                 <div className="card-body">
-                  <label htmlFor="sortBy">Sort by</label>
                   <select
                     onChange={inputHandler}
                     name="sortBy"

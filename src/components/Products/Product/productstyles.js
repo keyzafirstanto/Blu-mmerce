@@ -3,14 +3,17 @@ import { makeStyles } from '@material-ui/core/styles';
 export default makeStyles(() => ({
   root: {
     // maxWidth: 345, original width style
-    maxWidth: '80%',
+    maxWidth: '100%',
+    maxHeight: '100%',
+    marginLeft: '30px',
   },
   media: {
-    height: '100%',
-    width: '100%',
-    maxHeight: '100%',
-    maxWidth: '100%',
-    paddingTop: '100%', // 16:9
+    height: '200px',
+    width: '500px',
+    maxHeight: '90%',
+    maxWidth: '90%',
+    paddingTop: '10%', // 16:9
+    margin: '20px',
   },
   cardActions: {
     display: 'flex',
@@ -19,6 +22,7 @@ export default makeStyles(() => ({
   cardContent: {
     display: 'flex',
     justifyContent: 'space-between',
+    margin: '20px',
   },
 }));
 

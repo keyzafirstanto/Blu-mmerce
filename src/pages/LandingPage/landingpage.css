@@ -1,3 +1,12 @@
-/* .main-container {
+.admin_container {
   position: block;
-} */
+  top: 0;
+  margin: 7px 2% 2% 14%;
+  justify-content: center;
+  align-items: center;
+}
+
+h5:hover {
+  color: wheat;
+  cursor: pointer;
+}

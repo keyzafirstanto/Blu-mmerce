@@ -1,9 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
 import { API_URL } from '../../helper';
+import { AddModal } from './ModalAddProduct/ModalAddProduct';
 
-// import { connect } from 'react-redux';
-// import { Redirect } from 'react-router-dom';
+import styled from 'styled-components';
+
+const Button = styled.button`
+  min-width: 100px;
+  padding: 16px 32px;
+  border-radius: 4px;
+  border: none;
+  background: #8ccfcd;
+  color: #fff;
+  cursor: pointer;
+`;
 
 const Admin = () => {
   const [productFetch, setProductFetch] = useState({
@@ -11,19 +21,6 @@ const Admin = () => {
     pagination: 1,
     maximumPage: 0,
     dataPerPage: 5,
-  });
-
-  const [newProduct, setNewProduct] = useState({
-    addProductName: '',
-    addProductDesc: '',
-    addProductStock: 0,
-    addProductNetto: 0,
-    addProductNettoTotal: 0,
-    addProductUnit: 0,
-    addProductPricePerUnit: 0,
-    addProductPricePerStock: 0,
-    addProductBrand: '',
-    addProductCategory: '',
   });
 
   const [editProduct, setEditProduct] = useState({
@@ -45,6 +42,12 @@ const Admin = () => {
     addFileName: '',
   });
 
+  const [showModal, setShowModal] = useState(false);
+
+  const openModal = () => {
+    setShowModal((prev) => !prev);
+  };
+
   const fetchProducts = () => {
     Axios.get(`${API_URL}/products/get`)
       .then((res) => {
@@ -57,6 +60,10 @@ const Admin = () => {
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  const refreshPage = () => {
+    fetchProducts();
   };
 
   const editProducts = (editData) => {
@@ -166,6 +173,7 @@ const Admin = () => {
     }
   };
 
+  // render products
   const renderProducts = () => {
     const productPagination =
       (productFetch.pagination - 1) * productFetch.dataPerPage;
@@ -192,7 +200,7 @@ const Admin = () => {
               />
             </td>
             <td>
-              <input
+              <textarea
                 value={editProduct.editProductDesc}
                 onChange={inputHandler}
                 type="text"
@@ -201,7 +209,9 @@ const Admin = () => {
               />
             </td>
             <td>
-              <img id="imgpreview" alt="" width="100%" />
+              <div>
+                <img id="imgpreview" alt="" width="100%" />
+              </div>
               <input
                 onChange={btnAddImage}
                 type="file"
@@ -328,7 +338,10 @@ const Admin = () => {
           <td>{product.products_category}</td>
           <td>
             <button
+              type="button"
               className="btn btn-secondary"
+              data-toggle="modal"
+              data-target="#editModal"
               onClick={() => editProducts(product)}
             >
               Edit
@@ -365,52 +378,8 @@ const Admin = () => {
     }
   };
 
-  const addNewProduct = () => {
-    if (addImage.addFile) {
-      let formData = new FormData();
-      formData.append(
-        'data',
-        JSON.stringify({
-          product_name: newProduct.addProductName,
-          product_desc: newProduct.addProductDesc,
-          stock: parseInt(newProduct.addProductStock),
-          netto: parseInt(newProduct.addProductNetto),
-          netto_total: parseInt(newProduct.addProductNettoTotal),
-          unit: newProduct.addProductUnit,
-          price_per_unit: parseInt(newProduct.addProductPricePerUnit),
-          price_per_stock: parseInt(newProduct.addProductPricePerStock),
-          brand_id: newProduct.addProductBrand,
-          category_id: newProduct.addProductCategory,
-        })
-      );
-      formData.append('file', addImage.addFile);
-
-      Axios.post(`${API_URL}/products/post`, formData)
-        .then((res) => {
-          alert(res.data.message);
-          fetchProducts();
-          setNewProduct({
-            addProductName: '',
-            addProductDesc: '',
-            addProductStock: 0,
-            addProductNetto: 0,
-            addProductNettoTotal: 0,
-            addProductUnit: 0,
-            addProductPricePerUnit: 0,
-            addProductPricePerStock: 0,
-            addProductBrand: '',
-            addProductCategory: '',
-          });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  };
-
   const inputHandler = (e) => {
     const { name, value } = e.target;
-    setNewProduct({ ...newProduct, [name]: value });
     setEditProduct({ ...editProduct, [name]: value });
   };
 
@@ -419,10 +388,19 @@ const Admin = () => {
   }, []);
 
   return (
-    <div className="p-5">
-      <div className="row">
-        <div className="col-12 text-center">
-          <h1>Manage Products</h1>
+    <div className="p-5r">
+      <div className="col-12 text-center">
+        <h1>Manage Products</h1>
+        <button onClick={refreshPage}>
+          <img src="https://img.icons8.com/ios-glyphs/30/000000/refresh--v2.png" />
+        </button>
+        <div>
+          <Button onClick={openModal}>Add New Product</Button>
+        </div>
+        <div>
+          <AddModal showModal={showModal} setShowModal={setShowModal} />
+        </div>
+        <div className="row">
           <table className="table mt-6">
             <thead>
               <tr>
@@ -442,144 +420,6 @@ const Admin = () => {
               </tr>
             </thead>
             <tbody>{renderProducts()}</tbody>
-            <tfoot>
-              <tr>
-                <td></td>
-                <td>
-                  <input
-                    value={newProduct.addProductName}
-                    onChange={inputHandler}
-                    name="addProductName"
-                    type="text"
-                    placeholder="Product Name"
-                    className="form-control"
-                  ></input>
-                </td>
-                <td>
-                  <input
-                    value={newProduct.addProductDesc}
-                    onChange={inputHandler}
-                    name="addProductDesc"
-                    type="text"
-                    placeholder="Product Description"
-                    className="form-control"
-                  ></input>
-                </td>
-                <td>
-                  <img id="imgpreview" alt="" width="100%" />
-                  <input
-                    onChange={btnAddImage}
-                    type="file"
-                    id="img"
-                    className="form-control"
-                  />
-                </td>
-                <td>
-                  <input
-                    value={newProduct.addProductStock}
-                    onChange={inputHandler}
-                    name="addProductStock"
-                    type="number"
-                    placeholder="10"
-                    className="form-control"
-                  ></input>
-                </td>
-                <td>
-                  <input
-                    value={newProduct.addProductNetto}
-                    onChange={inputHandler}
-                    name="addProductNetto"
-                    type="number"
-                    placeholder="400"
-                    className="form-control"
-                  ></input>
-                </td>
-                <td>
-                  <input
-                    value={newProduct.addProductNettoTotal}
-                    onChange={inputHandler}
-                    name="addProductNettoTotal"
-                    type="number"
-                    placeholder="4000"
-                    className="form-control"
-                  ></input>
-                </td>
-                <td>
-                  <select
-                    value={newProduct.addProductUnit}
-                    onChange={inputHandler}
-                    name="addProductUnit"
-                    type="text"
-                    placeholder="ml"
-                    className="form-control"
-                  >
-                    <option value="ml">ml</option>
-                    <option value="mg">mg</option>
-                  </select>
-                </td>
-                <td>
-                  <input
-                    value={newProduct.addProductPricePerUnit}
-                    onChange={inputHandler}
-                    name="addProductPricePerUnit"
-                    type="number"
-                    placeholder="200"
-                    className="form-control"
-                  ></input>
-                </td>
-                <td>
-                  <input
-                    value={newProduct.addProductPricePerStock}
-                    onChange={inputHandler}
-                    name="addProductPricePerStock"
-                    type="number"
-                    placeholder="5000"
-                    className="form-control"
-                  ></input>
-                </td>
-                <td>
-                  <select
-                    value={newProduct.addProductBrand}
-                    onChange={inputHandler}
-                    name="addProductBrand"
-                    type="number"
-                    placeholder="Kimia Farma"
-                    className="form-control"
-                  >
-                    <option value="1">Kimia Farma</option>
-                    <option value="2">Combiphar</option>
-                    <option value="3">Unilever</option>
-                    <option value="4">Vitacimin</option>
-                    <option value="5">Sanbe Farma</option>
-                  </select>
-                </td>
-                <td>
-                  <select
-                    value={newProduct.addProductCategory}
-                    onChange={inputHandler}
-                    name="addProductCategory"
-                    type="number"
-                    placeholder="Antibiotic"
-                    className="form-control"
-                  >
-                    <option value="1">Obat Generic</option>
-                    <option value="2">Antibiotic</option>
-                    <option value="3">Suplement Makanan</option>
-                    <option value="4">Obat Lambung</option>
-                    <option value="5">Antiseptic</option>
-                  </select>
-                </td>
-
-                <td colSpan="2">
-                  <button
-                    onClick={addNewProduct}
-                    className="btn btn-info text-white"
-                  >
-                    Add Product
-                  </button>
-                </td>
-              </tr>
-            </tfoot>
           </table>
           <div className="mt-3">
             <div className="d-flex flex-row justify-content-between align-items-center">
